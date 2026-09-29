@@ -1,3 +1,4 @@
+const insertMissing = require("./insertMissing");
 require("dotenv").config();
 
 const connectDB =require("../config/db")
@@ -31,9 +32,7 @@ const seedRecords =async () => {
             { studentID: "2300123456", courseCode: "SOC221", grade: "W", term: "2023-3" },
             { studentID: "2300123456", courseCode: "BSC224", grade: "B", term: "2025-3" },
             { studentID: "2300123456", courseCode: "CSC368", grade: "A", term: "2025-3" },
-            { studentID: "2300123456", courseCode: "THA101", grade: "IN PROGRESS", term: "2026-1" },
             { studentID: "2300123456", courseCode: "ITE231", grade: "A", term: "2025-2" },
-            { studentID: "2300123456", courseCode: "CSC220", grade: "IN PROGRESS", term: "2026-1" },
             { studentID: "2300123456", courseCode: "ITE254", grade: "A", term: "2025-1" },
 
             // Nikolai - 2400456789
@@ -41,7 +40,6 @@ const seedRecords =async () => {
             { studentID: "2400456789", courseCode: "PSY101", grade: "B", term: "2024-1" },
             { studentID: "2400456789", courseCode: "ITE240", grade: "B+", term: "2023-3" },
             { studentID: "2400456789", courseCode: "BSC224", grade: "C+", term: "2025-3" },
-            { studentID: "2400456789", courseCode: "CSC220", grade: "IN PROGRESS", term: "2026-1" },
 
             // Ronaldo - 2600345678
             { studentID: "2600345678", courseCode: "MIS103", grade: "B", term: "2024-2" },
@@ -63,7 +61,6 @@ const seedRecords =async () => {
             { studentID: "2400345678", courseCode: "ITE254", grade: "A", term: "2025-3" },
             { studentID: "2400345678", courseCode: "ITE451", grade: "B", term: "2025-3" },
             { studentID: "2400345678", courseCode: "MAT101", grade: "A", term: "2024-1" },
-            { studentID: "2400345678", courseCode: "CSC220", grade: "IN PROGRESS", term: "2026-1" },
 
             // Cucumber - 2300678901
             { studentID: "2300678901", courseCode: "MIS103", grade: "F", term: "2023-2" },
@@ -107,8 +104,6 @@ const seedRecords =async () => {
             // Elysia - 2400678901
             { studentID: "2400678901", courseCode: "MIS103", grade: "A", term: "2024-3" },
             { studentID: "2400678901", courseCode: "BSC224", grade: "A", term: "2025-3" },
-            { studentID: "2400678901", courseCode: "BSC224", grade: "IN PROGRESS", term: "2026-1" },
-            { studentID: "2400678901", courseCode: "CSC220", grade: "IN PROGRESS", term: "2026-1" },
 
             // Maxim - 2600234567
             { studentID: "2600234567", courseCode: "ITE254", grade: "B", term: "2025-2" },
@@ -126,14 +121,65 @@ const seedRecords =async () => {
             { studentID: "2500345678", courseCode: "PSY101", grade: "B+", term: "2025-2" },
             { studentID: "2500345678", courseCode: "ITE343", grade: "F", term: "2025-2" },
             { studentID: "2500345678", courseCode: "MAT101", grade: "B+", term: "2025-1" },
-            { studentID: "2500345678", courseCode: "CSC368", grade: "A", term: "2025-3" }
+            { studentID: "2500345678", courseCode: "CSC368", grade: "A", term: "2025-3" },
+
+            // Current records match the proposed registrations. Historical grades above are unchanged.
+            {"studentID":"2300123456","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300123456","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300123456","courseCode":"ITE/BSC104","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400456789","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400456789","courseCode":"ITE/CSC441","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400456789","courseCode":"ENG101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600345678","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600345678","courseCode":"ITE420","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600345678","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567891","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567891","courseCode":"ITE254","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567891","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400345678","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400345678","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400345678","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300678901","courseCode":"MIS103","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300678901","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300678901","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500234567","courseCode":"ITE420","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500234567","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500234567","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567890","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567890","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300567890","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400234567","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400234567","courseCode":"ITE254","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400234567","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300890123","courseCode":"ITE420","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300890123","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2300890123","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400567890","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400567890","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400567890","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400678901","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400678901","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2400678901","courseCode":"ITE254","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600234567","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600234567","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2600234567","courseCode":"THA101","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500123456","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500123456","courseCode":"ITE254","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500123456","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500345678","courseCode":"ITE343","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500345678","courseCode":"CSC220","grade":"IN PROGRESS","term":"2026-1"},
+            {"studentID":"2500345678","courseCode":"BSC224","grade":"IN PROGRESS","term":"2026-1"}
         ];
 
+        const missing = records.filter(record =>
+            !studentMap[record.studentID] || !courseMap[record.courseCode]
+        );
+        if (missing.length) {
+            throw new Error("Missing student or course for records: " +
+                missing.map(record => `${record.studentID}/${record.courseCode}`).join(", "));
+        }
+
         const finalRecords = records
-        .filter(record =>
-            studentMap[record.studentID] &&
-            courseMap[record.courseCode]
-        )
         .map(record => ({
             studentId: studentMap[record.studentID],
             courseId: courseMap[record.courseCode],
@@ -141,9 +187,9 @@ const seedRecords =async () => {
             grade: record.grade
         }));
 
-        await Record.insertMany(finalRecords);
+        await insertMissing(Record, finalRecords, ["studentId", "courseId", "term"]);
 
-        console.log(`1${finalRecords.length} student recorded added successfully`);
+        console.log(`${finalRecords.length} student records processed successfully`);
         process.exit();
     } catch (error) {
         console.error("record seedning failed:");

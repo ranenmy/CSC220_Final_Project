@@ -1,0 +1,95 @@
+// Uses a brand-new isolated database on the configured cluster, never the app database.
+require('dotenv').config({quiet:true});
+const assert=require('node:assert/strict');
+const crypto=require('node:crypto');
+const mongoose=require('mongoose');
+const bcrypt=require('bcryptjs');
+const User=require('../models/User');
+const Course=require('../models/Course');
+const Offering=require('../models/Offering');
+const Record=require('../models/Record');
+const Registration=require('../models/Registration');
+const dbName='csc220_api_test_'+crypto.randomBytes(8).toString('hex');
+process.env.JWT_SECRET=crypto.randomBytes(32).toString('hex');
+const app=require('../app');
+let server,base,checks=0;
+async function call(method,path,token,data,expected=200){
+ const headers={};if(token)headers.Authorization='Bearer '+token;if(data!==undefined)headers['Content-Type']='application/json';
+ const response=await fetch(base+path,{method,headers,body:data===undefined?undefined:JSON.stringify(data)});
+ const result=await response.json();assert.equal(response.status,expected,method+' '+path+' '+JSON.stringify(result));checks++;return result;
+}
+(async()=>{
+ try{
+ await mongoose.connect(process.env.MONGO_URI,{dbName,serverSelectionTimeoutMS:10000});
+ assert.equal(mongoose.connection.name,dbName);
+ for(const model of Object.values(mongoose.models))await model.init();
+ const password='ApiTestPassword123!';const passwordHash=await bcrypt.hash(password,10);
+ const admin=await User.create({name:'Admin',email:'admin@test.example',role:'admin',passwordHash});
+ const advisor=await User.create({name:'Advisor',email:'advisor@test.example',role:'advisor',advisorId:'ADTEST',passwordHash});
+ const student=await User.create({name:'Student',email:'student@test.example',role:'student',studentId:'STTEST',passwordHash});
+ const student2=await User.create({name:'Student2',email:'student2@test.example',role:'student',studentId:'STTEST2',passwordHash});
+ const courses=await Course.create([1,2,3,4].map(n=>({code:'TEST'+n,title:'Test '+n,credits:4,description:'Isolated test'})));
+ server=await new Promise((resolve,reject)=>{const s=app.listen(0,'127.0.0.1',error=>error?reject(error):resolve(s));});base='http://127.0.0.1:'+server.address().port;
+ await call('POST','/api/auth/login',null,{},400);
+ await call('POST','/api/auth/login',null,{email:admin.email,password:'wrong'},401);
+ const login=async user=>(await call('POST','/api/auth/login',null,{email:user.email,password})).token;
+ const a=await login(admin),v=await login(advisor),s=await login(student),s2=await login(student2);
+ const paths=[['GET','/api/users'],['POST','/api/users'],['PATCH','/api/users/'+student.id],['DELETE','/api/users/'+student.id],['GET','/api/offerings?term=2026-1'],['POST','/api/offerings'],['PATCH','/api/offerings/'+student.id],['DELETE','/api/offerings/'+student.id],['GET','/api/students/'+student.id+'/record'],['GET','/api/students/'+student.id+'/eligible?term=2026-1'],['POST','/api/registrations'],['DELETE','/api/registrations/'+student.id],['GET','/api/me/registrations']];
+ for(const [method,path] of paths)await call(method,path,null,undefined,401);
+ await call('GET','/api/users',s,undefined,403);
+ const users=await call('GET','/api/users',a);assert(users.every(u=>!('passwordHash'in u)));
+ const newUser=await call('POST','/api/users',a,{name:'New',email:'new@test.example',password,role:'student',studentId:'STNEW'},201);
+ await call('PATCH','/api/users/'+newUser._id,a,{name:'Renamed'});
+ await call('POST','/api/users',a,{name:'Dup',email:'NEW@test.example',password,role:'student',studentId:'STNEW2'},409);
+ await call('DELETE','/api/users/'+newUser._id,a);
+ await call('POST','/api/auth/login',null,{email:'new@test.example',password},401);
+ await call('DELETE','/api/users/'+admin.id,a,undefined,409);
+ await call('PATCH','/api/users/not-an-id',a,{name:'No'},400);
+ const template={courseId:courses[0].id,term:'2026-1',section:1,day:'Monday',startTime:'09:00',endTime:'11:00',room:'R1',instructor:'T1',seats:1,addDropOpen:true};
+ await call('POST','/api/offerings',s,template,403);
+ const offer=await call('POST','/api/offerings',v,template,201);
+ await call('POST','/api/offerings',v,{...template,courseId:courses[1].id},409);
+ await call('POST','/api/offerings',v,{...template,startTime:'9:00',section:2},400);
+ await call('GET','/api/offerings?term=1-2026',v,undefined,400);
+ await call('GET','/api/offerings?term=2026-1',a,undefined,403);
+ assert.equal((await call('GET','/api/offerings?term=2026-1',s)).length,1);
+ await call('PATCH','/api/offerings/'+offer._id,v,{room:'R2'});
+ await call('GET','/api/students/'+student.id+'/record',s);
+ await call('GET','/api/students/'+student2.id+'/record',s,undefined,403);
+ await call('GET','/api/students/'+student.id+'/eligible?term=2026-1',s,undefined,403);
+ const eligibility=await call('GET','/api/students/'+student.id+'/eligible?term=2026-1',v);assert(eligibility[0].eligible);
+ const race=await Promise.all([student,student2].map(async u=>{
+ const r=await fetch(base+'/api/registrations',{method:'POST',headers:{Authorization:'Bearer '+v,'Content-Type':'application/json'},body:JSON.stringify({studentId:u.id,offeringId:offer._id})});return {status:r.status,body:await r.json()};}));
+ assert.deepEqual(race.map(r=>r.status).sort(),[201,409]);checks+=2;
+ const reg=race.find(r=>r.status===201).body;const winner=reg.studentId;
+ assert.equal(await Registration.countDocuments({status:'registered'}),1);assert.equal((await Offering.findById(offer._id)).seatsTaken,1);
+ await call('POST','/api/registrations',v,{studentId:winner,offeringId:offer._id},409);
+ await call('DELETE','/api/offerings/'+offer._id,v,undefined,409);
+ const ownToken=winner===student.id?s:s2;assert.equal((await call('GET','/api/me/registrations',ownToken)).length,1);
+ const overlapping=await call('POST','/api/offerings',v,{...template,courseId:courses[1].id,room:'R3',instructor:'T2'},201);
+ await call('POST','/api/registrations',v,{studentId:winner,offeringId:overlapping._id},409);
+ const later=await call('POST','/api/offerings',v,{...template,courseId:courses[2].id,day:'Tuesday',room:'R4',instructor:'T3'},201);
+ await call('POST','/api/registrations',v,{studentId:winner,offeringId:later._id},201);
+ await call('PATCH','/api/offerings/'+later._id,v,{day:'Monday'},409);
+ await call('PATCH','/api/offerings/'+offer._id,v,{addDropOpen:false});
+ await call('DELETE','/api/registrations/'+reg._id,v,undefined,409);
+ await call('PATCH','/api/offerings/'+offer._id,v,{addDropOpen:true});
+ await call('DELETE','/api/registrations/'+reg._id,v);
+ await call('DELETE','/api/registrations/'+reg._id,v);
+ assert.equal((await Offering.findById(offer._id)).seatsTaken,0);
+ assert.equal((await Record.findOne({studentId:winner,courseId:offer.courseId})).grade,'W');
+ await call('POST','/api/registrations',v,{studentId:winner,offeringId:offer._id},201);
+ assert.equal((await Record.findOne({studentId:winner,courseId:offer.courseId})).grade,'IN PROGRESS');
+ const passed=await Record.create({studentId:student._id,courseId:courses[3]._id,term:'2025-1',grade:'A'});
+ const passedOffer=await call('POST','/api/offerings',v,{...template,courseId:courses[3].id,day:'Friday',room:'R5',instructor:'T5'},201);
+ await call('POST','/api/registrations',v,{studentId:student.id,offeringId:passedOffer._id},409);
+ assert.equal((await Record.findById(passed._id)).grade,'A');
+ await call('DELETE','/api/offerings/'+passedOffer._id,v);
+ await call('GET','/missing',a,undefined,404);
+ console.log(`PASS: ${checks} HTTP checks, capacity race, rollback, drop/re-register, historical grade preservation.`);
+ }finally{
+ if(server)await new Promise(resolve=>server.close(resolve));
+ if(mongoose.connection.readyState===1&&mongoose.connection.name===dbName&&/^csc220_api_test_[a-f0-9]{16}$/.test(dbName))await mongoose.connection.dropDatabase();
+ await mongoose.disconnect();
+ }
+})().catch(error=>{console.error(error.name+': '+error.message);process.exitCode=1;});

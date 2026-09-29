@@ -1,3 +1,4 @@
+const insertMissing = require("./insertMissing");
 require("dotenv").config();
 
 const connectDB = require("../config/db");
@@ -13,7 +14,7 @@ const seedRegistrations = async () => {
 
         const students = await User.find({role: "student"});
         const courses = await Course.find();
-        const offerings = await Offering.find({ term: "1-2026" });
+        const offerings = await Offering.find({ term: "2026-1" });
 
         const studentMap = {};
         const courseMap = {};
@@ -39,80 +40,51 @@ const seedRegistrations = async () => {
         });
 
         const registrations = [
-            // Ayla
-            { studentID: "2300123456", courseCode: "THA101", section: 1 },
-            { studentID: "2300123456", courseCode: "CSC220", section: 1 },
-            { studentID: "2300123456", courseCode: "ITE254", section: 1 },
-
-            // Nikolai
-            { studentID: "2400456789", courseCode: "CSC220", section: 2 },
-            { studentID: "2400456789", courseCode: "PSY101", section: 1 },
-            { studentID: "2400456789", courseCode: "ITE240", section: 1 },
-
-            // Ronaldo
-            { studentID: "2600345678", courseCode: "MIS103", section: 1 },
-            { studentID: "2600345678", courseCode: "ITE254", section: 2 },
-            { studentID: "2600345678", courseCode: "MAT101", section: 1 },
-
-            // Captan
-            { studentID: "2300567891", courseCode: "ITE451", section: 1 },
-            { studentID: "2300567891", courseCode: "CSC368", section: 1 },
-            { studentID: "2300567891", courseCode: "ITE240", section: 1 },
-
-            // Bobby
-            { studentID: "2400345678", courseCode: "CSC220", section: 3 },
-            { studentID: "2400345678", courseCode: "ITE254", section: 1 },
-            { studentID: "2400345678", courseCode: "ITE451", section: 2 },
-
-            // Cucumber
-            { studentID: "2300678901", courseCode: "MIS103", section: 1 },
-            { studentID: "2300678901", courseCode: "ITE331", section: 1 },
-            { studentID: "2300678901", courseCode: "MAT101", section: 1 },
-
-            // Demon
-            { studentID: "2500234567", courseCode: "ITE420", section: 1 },
-            { studentID: "2500234567", courseCode: "ITE231", section: 1 },
-            { studentID: "2500234567", courseCode: "ITE451", section: 3 },
-
-            // Kappaboy
-            { studentID: "2300567890", courseCode: "ENG101", section: 1 },
-            { studentID: "2300567890", courseCode: "ITE254", section: 2 },
-            { studentID: "2300567890", courseCode: "ITE420", section: 2 },
-
-            // Zane
-            { studentID: "2400234567", courseCode: "ITE240", section: 1 },
-            { studentID: "2400234567", courseCode: "ITE231", section: 1 },
-            { studentID: "2400234567", courseCode: "ITE451", section: 1 },
-
-            // Alex
-            { studentID: "2300890123", courseCode: "ITE420", section: 1 },
-            { studentID: "2300890123", courseCode: "ITE254", section: 1 },
-            { studentID: "2300890123", courseCode: "CSC368", section: 1 },
-
-            // Bay
-            { studentID: "2400567890", courseCode: "ITE451", section: 2 },
-            { studentID: "2400567890", courseCode: "ITE331", section: 1 },
-            { studentID: "2400567890", courseCode: "ITE254", section: 1 },
-
-            // Elysia
-            { studentID: "2400678901", courseCode: "CSC220", section: 3 },
-            { studentID: "2400678901", courseCode: "THA101", section: 2 },
-            { studentID: "2400678901", courseCode: "MIS103", section: 1 },
-
-            // Maxim
-            { studentID: "2600234567", courseCode: "ITE254", section: 1 },
-            { studentID: "2600234567", courseCode: "ITE451", section: 1 },
-            { studentID: "2600234567", courseCode: "ITE231", section: 1 },
-
-            // Elara
-            { studentID: "2500123456", courseCode: "CSC368", section: 1 },
-            { studentID: "2500123456", courseCode: "ITE240", section: 1 },
-            { studentID: "2500123456", courseCode: "ITE451", section: 2 },
-
-            // Peter
-            { studentID: "2500345678", courseCode: "CSC368", section: 1 },
-            { studentID: "2500345678", courseCode: "MAT101", section: 1 },
-            { studentID: "2500345678", courseCode: "PSY101", section: 1 }
+            {"studentID":"2300123456","courseCode":"THA101","section":1},
+            {"studentID":"2300123456","courseCode":"CSC220","section":1},
+            {"studentID":"2300123456","courseCode":"ITE/BSC104","section":1},
+            {"studentID":"2400456789","courseCode":"CSC220","section":2},
+            {"studentID":"2400456789","courseCode":"ITE/CSC441","section":1},
+            {"studentID":"2400456789","courseCode":"ENG101","section":1},
+            {"studentID":"2600345678","courseCode":"CSC220","section":1},
+            {"studentID":"2600345678","courseCode":"ITE420","section":1},
+            {"studentID":"2600345678","courseCode":"THA101","section":2},
+            {"studentID":"2300567891","courseCode":"CSC220","section":1},
+            {"studentID":"2300567891","courseCode":"ITE254","section":1},
+            {"studentID":"2300567891","courseCode":"BSC224","section":1},
+            {"studentID":"2400345678","courseCode":"CSC220","section":3},
+            {"studentID":"2400345678","courseCode":"THA101","section":2},
+            {"studentID":"2400345678","courseCode":"BSC224","section":1},
+            {"studentID":"2300678901","courseCode":"MIS103","section":1},
+            {"studentID":"2300678901","courseCode":"CSC220","section":3},
+            {"studentID":"2300678901","courseCode":"BSC224","section":1},
+            {"studentID":"2500234567","courseCode":"ITE420","section":1},
+            {"studentID":"2500234567","courseCode":"CSC220","section":1},
+            {"studentID":"2500234567","courseCode":"THA101","section":2},
+            {"studentID":"2300567890","courseCode":"CSC220","section":1},
+            {"studentID":"2300567890","courseCode":"BSC224","section":1},
+            {"studentID":"2300567890","courseCode":"THA101","section":2},
+            {"studentID":"2400234567","courseCode":"CSC220","section":1},
+            {"studentID":"2400234567","courseCode":"ITE254","section":1},
+            {"studentID":"2400234567","courseCode":"BSC224","section":1},
+            {"studentID":"2300890123","courseCode":"ITE420","section":1},
+            {"studentID":"2300890123","courseCode":"CSC220","section":1},
+            {"studentID":"2300890123","courseCode":"BSC224","section":1},
+            {"studentID":"2400567890","courseCode":"CSC220","section":1},
+            {"studentID":"2400567890","courseCode":"BSC224","section":1},
+            {"studentID":"2400567890","courseCode":"THA101","section":2},
+            {"studentID":"2400678901","courseCode":"CSC220","section":3},
+            {"studentID":"2400678901","courseCode":"THA101","section":2},
+            {"studentID":"2400678901","courseCode":"ITE254","section":1},
+            {"studentID":"2600234567","courseCode":"CSC220","section":1},
+            {"studentID":"2600234567","courseCode":"BSC224","section":1},
+            {"studentID":"2600234567","courseCode":"THA101","section":2},
+            {"studentID":"2500123456","courseCode":"CSC220","section":1},
+            {"studentID":"2500123456","courseCode":"ITE254","section":1},
+            {"studentID":"2500123456","courseCode":"BSC224","section":1},
+            {"studentID":"2500345678","courseCode":"ITE343","section":1},
+            {"studentID":"2500345678","courseCode":"CSC220","section":1},
+            {"studentID":"2500345678","courseCode":"BSC224","section":1}
         ];
 
         const finalRegistrations = registrations 
@@ -121,19 +93,19 @@ const seedRegistrations = async () => {
             const offeringId = offeringMap[`${registration.courseCode}-${registration.section}`];
 
             if (!studentId || !offeringId) {
-                return null;
+                throw new Error(`Missing student or offering: ${registration.studentID}/${registration.courseCode}/section ${registration.section}`);
             }
 
             return {
                 studentId, 
                 offeringId,
-                term: "1-2026",
+                term: "2026-1",
                 status: "registered"
             };
         })
         .filter(registration => registration !== null);
 
-        await Registration.insertMany(finalRegistrations);
+        await insertMissing(Registration, finalRegistrations, ["studentId", "offeringId", "term"]);
         console.log(`${finalRegistrations.length} registration added successfully`);
         process.exit();
 

@@ -21,6 +21,7 @@ const seedUsers = async () => {
                 email: "lanka@gmail.com",
                 passwordHash,
                 role: "admin",
+            
                 active: true
             },
 

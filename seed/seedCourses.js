@@ -1,3 +1,4 @@
+const insertMissing = require("./insertMissing");
 require("dotenv").config();
 
 const connectDB = require("../config/db");
@@ -133,12 +134,24 @@ const seedCourse = async () => {
                 title: "AWS Cloud Foundations",
                 credits: 4,
                 description: "Introduces fundamental cloud computing concepts and basic AWS services."
+            },
+            {
+                code: "ITE222",
+                title: "Java Programming 2",
+                credits: 4,
+                description: "Introduces intermediate java programming concept."
+            },
+            {
+                code: "ITE343",
+                title: "Mobile Application Development",
+                credits: 4,
+                description: "Introduces fundamental mobile application computing concepts."
             }
         ];
 
-        await Course.insertMany(courses);
+        await insertMissing(Course, courses, ["code"]);
 
-        console.log("18 courses added successfully");
+        console.log(`${courses.length} courses processed successfully`);
         process.exit();
     } catch (error) {
         console.error("Course sedding failed:");
