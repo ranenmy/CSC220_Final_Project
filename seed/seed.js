@@ -1,11 +1,10 @@
 require("dotenv").config();
 
-const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const connectDB = require("../config/db");
 
-const User = require("..//models/User");
+const User = require("../models/User");
 
 const seedUsers = async () => {
     try {
@@ -62,7 +61,7 @@ const seedUsers = async () => {
             },
 
             { // students ###############################################
-                name: "Ayla",
+                name: "Ayla", //1
                 email: "ayla@gmail.com",
                 passwordHash,
                 role: "student",
@@ -71,7 +70,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Nikolai",
+                name: "Nikolai", //2
                 email: "niko@gmail.com",
                 passwordHash,
                 role: "student",
@@ -80,7 +79,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Ronaldo",
+                name: "Ronaldo", //3
                 email: "ronaldo@gmail.com",
                 passwordHash,
                 role: "student",
@@ -89,7 +88,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Captan",
+                name: "Captan", //4
                 email: "captan@gmail.com",
                 passwordHash,
                 role: "student",
@@ -98,7 +97,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Bobby",
+                name: "Bobby", //5
                 email: "bobB@gmail.com",
                 passwordHash,
                 role: "student",
@@ -107,7 +106,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Cucumber",
+                name: "Cucumber", //6
                 email: "cucu@gmail.com",
                 passwordHash,
                 role: "student",
@@ -116,7 +115,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Demon",
+                name: "Demon", //7
                 email: "demon@gmail.com",
                 passwordHash,
                 role: "student",
@@ -125,7 +124,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Kappaboy",
+                name: "Kappaboy", //8
                 email: "kappy@gmail.com",
                 passwordHash,
                 role: "student",
@@ -134,7 +133,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Zane",
+                name: "Zane", //9
                 email: "zane@gmail.com",
                 passwordHash,
                 role: "student",
@@ -143,7 +142,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Alex",
+                name: "Alex", //10
                 email: "alex@gmail.com",
                 passwordHash,
                 role: "student",
@@ -152,7 +151,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Bay",
+                name: "Bay", //11
                 email: "bay@gmail.com",
                 passwordHash,
                 role: "student",
@@ -161,7 +160,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Elysia",
+                name: "Elysia", //12
                 email: "Elysia@gmail.com",
                 passwordHash,
                 role: "student",
@@ -170,7 +169,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Maxim",
+                name: "Maxim", //13
                 email: "irf@gmail.com",
                 passwordHash,
                 role: "student",
@@ -179,7 +178,7 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Elara",
+                name: "Elara", //14
                 email: "elara@gmail.com",
                 passwordHash,
                 role: "student",
@@ -188,21 +187,108 @@ const seedUsers = async () => {
             },
 
             {
-                name: "Peter",
+                name: "Peter", //15
                 email: "peter@gmail.com",
                 passwordHash,
                 role: "student",
                 studentId: "2500345678",
                 active: true
-            }
+            },
 
+            {
+                name: "Bernardo", //16
+                email: "bernardo@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2500567890",
+                active: true
+            },
+
+            {
+                name: "Zinn", //17
+                email: "zinn@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2600456789",
+                active: true
+            },
+
+            {
+                name: "Liam", //18
+                email: "liam@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2600789012",
+                active: true
+            },
+
+            {
+                name: "Noah", //19
+                email: "noah@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2600890123",
+                active: true
+            },
+            
+            {
+                name: "Oliver", //20
+                email: "oliver@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2500678901",
+                active: true
+            },
+
+            {
+                name: "Ethan", //21
+                email: "ethan@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2500789012",
+                active: true
+            },
+
+            {
+                name: "Lucas", //22
+                email: "Lucas@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2400789012",
+                active: true
+            },
+
+            {
+                name: "James", //23
+                email: "james@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2500890123",
+                active: true
+            },
+
+            {
+                name: "Henry", //24
+                email: "henry@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2400890123",
+                active: true
+            },
+
+            {
+                name: "Daniel", //25
+                email: "daniel@gmail.com",
+                passwordHash,
+                role: "student",
+                studentId: "2600901234",
+                active: true
+            }
         ];
 
-        const students = users.filter(user => user.role === "student");
+        await User.insertMany(users);
 
-        await User.insertMany(students);
-
-        console.log("student added successfully");
+        console.log("Users added successfully");
         process.exit();
     } catch (error) {
         console.error("Seeding failed");

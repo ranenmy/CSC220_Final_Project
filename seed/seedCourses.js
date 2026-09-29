@@ -28,12 +28,12 @@ const seedCourse = async () => {
                 code: "SOC221",
                 title: "Business Culture and Current Issues in ASEAN",
                 credits: 4,
-                description: "Explores business culture and current issues in ASEAN cuntries."
+                description: "Explores business culture and current issues in ASEAN countries."
             },
 
             { //4
                 code: "ITE/BSC102",
-                title: "Discete Mathematics Structure",
+                title: "Discrete Mathematics Structure",
                 credits: 4,
                 description: "Covers mathematical concepts used in computer science and information technology."
             },
@@ -77,12 +77,12 @@ const seedCourse = async () => {
                 code: "ITE254",
                 title: "Human Computer Interaction",
                 credits: 4,
-                description: "Introduces the design and evaluation of usr interface and user interation."
+                description: "Introduces the design and evaluation of usr interface and user interaction."
             },
 
             { //11
                 code: "ITE/CSC441",
-                title: "Database Managemenet System I",
+                title: "Database Management System I",
                 credits: 4,
                 description: "Introduces database concepts, design, management, and data organization."
             },
@@ -91,7 +91,7 @@ const seedCourse = async () => {
                 code: "PSY101",
                 title: "General Psychology",
                 credits: 4,
-                description: "Intruduces basic concepts of human behavior, thoughts and psychological processes."
+                description: "Introduces basic concepts of human behavior, thoughts and psychological processes."
             },
 
             { //13
@@ -103,7 +103,7 @@ const seedCourse = async () => {
 
             { //14
                 code: "ITE331",
-                title: "Introducation to 3D Modeling and Visrtual Reality",
+                title: "Introduction to 3D Modeling and Virtual Reality",
                 credits: 4,
                 description: "Introduces 3D modeling concepts and basic virtual reality technologies."
             },
@@ -112,24 +112,24 @@ const seedCourse = async () => {
                 code: "MAT101",
                 title: "College Algebra I",
                 credits: 4,
-                description: "Covers fundamental algebraic concepts, equations, functions and problems-solving."
+                description: "Covers fundamental algebraic concepts, equations, functions and problem-solving."
             },
 
             { //16
                 code: "ITE240",
                 title: "Operating Systems",
                 credits: 4,
-                description: "Introduces operating system concepts, processes, memory, files and system management."
+                description: "Introduces operating systems concepts, processes, memory, files and system management."
             },
 
-            {
+            { //17
                 code: "ITE/BSC104",
                 title: "Computer Organization",
                 credits: 4,
                 description: "Introduces computer hardware, architecture, memory, processors, and system organization."
             },
 
-            {
+            { //18
                 code: "ITE451",
                 title: "AWS Cloud Foundations",
                 credits: 4,
@@ -154,7 +154,7 @@ const seedCourse = async () => {
         console.log(`${courses.length} courses processed successfully`);
         process.exit();
     } catch (error) {
-        console.error("Course sedding failed:");
+        console.error("Course seeding failed:");
         console.error(error);
         process.exit(1);
     }
