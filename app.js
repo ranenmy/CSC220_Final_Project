@@ -1,27 +1,35 @@
 require("dotenv").config();
-if (!process.env.JWT_SECRET) throw new Error("JWT_SECRET is required");
 
 const express = require("express");
+const cors = require("cors");
+
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 
+const PORT = process.env.PORT || 3001;
+
 const app = express();
-const PORT = 3001;
 
-
-
-app.use(express.json());
-
-app.use("/api/users", userRoutes);
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }));
+  
+  app.use(express.json());
+  
+  app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
     res.send("CSC220 Course Registration API is running")
 });
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/courses", require("./routes/courseRoutes"));
 app.use("/api/offerings", require("./routes/offeringRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/registrations", require("./routes/registrationRoutes"));
 app.use("/api/me", require("./routes/meRoutes"));
+
 
 app.use((req, res) => {
     res.status(404).json({ message: "Route not found" });

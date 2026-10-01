@@ -21,7 +21,7 @@ const seedOffering = async () => {
             
             {//1
                 courseCode: "ENG101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "10:30",
@@ -32,7 +32,7 @@ const seedOffering = async () => {
             },
             {//2
                 courseCode: "ENG101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Tuesday",
                 startTime: "12:30",
@@ -43,7 +43,7 @@ const seedOffering = async () => {
             },
             {//3
                 courseCode: "ENG101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Wednesday",
                 startTime: "10:30",
@@ -54,7 +54,7 @@ const seedOffering = async () => {
             },
             {//4
                 courseCode: "ENG101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 4,
                 day: "Thursday",
                 startTime: "14:30",
@@ -65,7 +65,7 @@ const seedOffering = async () => {
             },
             {//5
                 courseCode: "ITE420",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "08:30",
@@ -76,7 +76,7 @@ const seedOffering = async () => {
             },
             {//6
                 courseCode: "ITE420",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Wednesday",
                 startTime: "12:30",
@@ -87,7 +87,7 @@ const seedOffering = async () => {
             },
             {//7
                 courseCode: "ITE420",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Friday",
                 startTime: "10:30",
@@ -98,7 +98,7 @@ const seedOffering = async () => {
             },
             {//8
                 courseCode: "BSC224",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Tuesday",
                 startTime: "08:30",
@@ -109,7 +109,7 @@ const seedOffering = async () => {
             },
             {//9
                 courseCode: "BSC224",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Wednesday",
                 startTime: "14:30",
@@ -120,7 +120,7 @@ const seedOffering = async () => {
             },
             {//10
                 courseCode: "BSC224",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Thursday",
                 startTime: "10:30",
@@ -131,7 +131,7 @@ const seedOffering = async () => {
             },
             {//11
                 courseCode: "BSC224",
-                term: "1-2026",
+                term: "2026-1",
                 section: 4,
                 day: "Friday",
                 startTime: "12:30",
@@ -142,7 +142,7 @@ const seedOffering = async () => {
             },
             {//12
                 courseCode: "THA101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "12:30",
@@ -153,7 +153,7 @@ const seedOffering = async () => {
             },
             {//13
                 courseCode: "THA101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Tuesday",
                 startTime: "14:30",
@@ -164,7 +164,7 @@ const seedOffering = async () => {
             },
             {//14
                 courseCode: "THA101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Thursday",
                 startTime: "10:30",
@@ -175,7 +175,7 @@ const seedOffering = async () => {
             },
             {//15
                 courseCode: "THA101",
-                term: "1-2026",
+                term: "2026-1",
                 section: 4,
                 day: "Friday",
                 startTime: "14:30",
@@ -186,7 +186,7 @@ const seedOffering = async () => {
             },
             {//16
                 courseCode: "CSC220",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "08:30",
@@ -197,7 +197,7 @@ const seedOffering = async () => {
             },
             {//17
                 courseCode: "CSC220",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Tuesday",
                 startTime: "12:30",
@@ -208,7 +208,7 @@ const seedOffering = async () => {
             },
             {//18
                 courseCode: "CSC220",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Wednesday",
                 startTime: "14:30",
@@ -219,7 +219,7 @@ const seedOffering = async () => {
             },
             {//19
                 courseCode: "CSC220",
-                term: "1-2026",
+                term: "2026-1",
                 section: 4,
                 day: "Thursday",
                 startTime: "10:30",
@@ -230,7 +230,7 @@ const seedOffering = async () => {
             },
             {//20
                 courseCode: "ITE254",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "14:30",
@@ -241,7 +241,7 @@ const seedOffering = async () => {
             },
             {//21
                 courseCode: "ITE254",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Tuesday",
                 startTime: "12:30",
@@ -252,7 +252,7 @@ const seedOffering = async () => {
             },
             {//22
                 courseCode: "ITE240",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Monday",
                 startTime: "10:30",
@@ -263,7 +263,7 @@ const seedOffering = async () => {
             },
             {//23
                 courseCode: "ITE/BSC104",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Wednesday",
                 startTime: "08:30",
@@ -274,7 +274,7 @@ const seedOffering = async () => {
             },
             {//24
                 courseCode: "ITE451",
-                term: "1-2026",
+                term: "2026-1",
                 section: 1,
                 day: "Thursday",
                 startTime: "10:30",
@@ -285,7 +285,7 @@ const seedOffering = async () => {
             },
             {//25
                 courseCode: "ITE451",
-                term: "1-2026",
+                term: "2026-1",
                 section: 2,
                 day: "Friday",
                 startTime: "12:30",
@@ -296,7 +296,7 @@ const seedOffering = async () => {
             },
             {//26
                 courseCode: "ITE451",
-                term: "1-2026",
+                term: "2026-1",
                 section: 3,
                 day: "Friday",
                 startTime: "14:30",
