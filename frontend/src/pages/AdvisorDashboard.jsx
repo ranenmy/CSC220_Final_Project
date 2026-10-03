@@ -1,4 +1,6 @@
+import Header from '../components/Header'
 import { useEffect, useState } from 'react'
+
 
 function AdvisorDashboard() {
 
@@ -903,18 +905,14 @@ function AdvisorDashboard() {
     <div className="advisor-page">
 
       {/* HEADER */}
-
+      
       <div className="advisor-header">
 
-        <div>
-          <h1>
-            Advisor Dashboard
-          </h1>
-
-          <p className="subtitle">
-            Course Registration Management System
-          </p>
-        </div>
+        <Header
+          title="Advisor Dashboard"
+          userName="Advisor"
+          role="Advisor"
+        />
 
         <button
           className="new-offering-button"
