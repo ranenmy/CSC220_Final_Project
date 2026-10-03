@@ -9,11 +9,18 @@ import {
 
 import AdminDashboard from './pages/AdminDashboard'
 import AdvisorDashboard from './pages/AdvisorDashboard'
+import Login from './pages/Login'
+import StudentDashboard from './pages/StudentDashboard'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
         <Route
           path="/admin"
           element={<AdminDashboard />}
@@ -25,8 +32,13 @@ function App() {
         />
 
         <Route
+        path="/student"
+        element={<StudentDashboard />}
+        />
+
+        <Route
           path="/"
-          element={<Navigate to="/advisor" replace />}
+          element={<Navigate to="/login" replace />}
         />
       </Routes>
     </BrowserRouter>
