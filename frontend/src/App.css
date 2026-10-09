@@ -756,3 +756,141 @@ tbody tr:hover {
   cursor: pointer;
   font-size: 14px;
 }
+
+
+
+/* Login Page */
+
+.login-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #1f2937;
+  font-family: Arial, sans-serif;
+}
+
+.login-header {
+  background: #fff;
+  padding: 28px 7%;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.login-header h1 {
+  margin: 0;
+  font-size: 30px;
+  color: #252525;
+}
+
+.login-header p {
+  margin: 8px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.login-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.login-card {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+  padding: 36px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-top: 4px solid #2a9d8f;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.login-card h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+
+.login-subtitle {
+  margin: 10px 0 28px;
+  color: #777;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-field label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-field input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 15px;
+}
+
+.login-field input:focus {
+  outline: 2px solid #2a9d8f;
+  outline-offset: 1px;
+}
+
+.login-button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 4px;
+  background: #2a9d8f;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background: #238579;
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.login-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .login-header {
+    padding: 24px;
+  }
+
+  .login-header h1 {
+    font-size: 24px;
+  }
+
+  .login-content {
+    padding: 32px 16px;
+  }
+
+  .login-card {
+    padding: 26px 22px;
+  }
+}
