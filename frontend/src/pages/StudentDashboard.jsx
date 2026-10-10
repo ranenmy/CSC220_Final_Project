@@ -12,7 +12,7 @@ function StudentDashboard() {
   const [offerings, setOfferings] = useState([])
   const [registrations, setRegistrations] = useState([])
   const [academicRecords, setAcademicRecords] = useState([])
-
+  const [term, setTerm] = useState('1-2026')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -35,29 +35,48 @@ function StudentDashboard() {
     }
   }, [])
 
-  const loadStudentData = async (studentId) => {
-    try {
-      setLoading(true)
-      setError('')
+const loadStudentData = async (studentId) => {
+  setLoading(true)
+  setError('')
 
-      const [
-        offeringsData,
-        registrationsData,
-        recordData,
-      ] = await Promise.all([
-        getOfferings(),
-        getMyRegistrations(),
-        getStudentRecord(studentId),
-      ])
+  const results = await Promise.allSettled([
+    getOfferings(term),
+    getMyRegistrations(),
+    getStudentRecord(studentId),
+  ])
 
-      setOfferings(offeringsData)
-      setRegistrations(registrationsData)
-      setAcademicRecords(recordData)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
+  const [offeringsResult, registrationsResult, recordResult] =
+    results
+
+  if (offeringsResult.status === 'fulfilled') {
+    setOfferings(offeringsResult.value)
+  } else {
+    setOfferings([])
+  }
+
+  if (registrationsResult.status === 'fulfilled') {
+    setRegistrations(registrationsResult.value)
+  } else {
+    setRegistrations([])
+  }
+
+  if (recordResult.status === 'fulfilled') {
+    setAcademicRecords(recordResult.value)
+  } else {
+    setAcademicRecords([])
+  }
+
+  const errors = results
+    .filter((result) => result.status === 'rejected')
+    .map((result) => result.reason?.message || 'Failed to load data')
+
+  if (errors.length > 0) {
+    setError(errors.join(' | '))
+  }
+
+  setLoading(false)
+}
+
   }
 
   if (loading) {
