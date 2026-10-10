@@ -26,9 +26,9 @@ async function apiRequest(endpoint, options = {}) {
   return data
 }
 
-export const getOfferings = () => {
-  return apiRequest('/offerings')
-}
+export const getOfferings = (term) =>
+apiRequest(`/offerings?term=${encodeURIComponent(term)}`)
+
 
 export const getMyRegistrations = () => {
   return apiRequest('/me/registrations')
