@@ -1,4 +1,3 @@
-jsx
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -38,7 +37,7 @@ function Login() {
 
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
-      
+
       if (data.user.role === 'admin') {
         navigate('/admin')
       } else if (data.user.role === 'advisor') {
