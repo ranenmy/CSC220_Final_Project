@@ -12,7 +12,9 @@ function StudentDashboard() {
   const [offerings, setOfferings] = useState([])
   const [registrations, setRegistrations] = useState([])
   const [academicRecords, setAcademicRecords] = useState([])
-  const [term, setTerm] = useState('1-2026')
+
+  const [term] = useState('2026-1')
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -27,56 +29,94 @@ function StudentDashboard() {
 
     try {
       const parsedUser = JSON.parse(storedUser)
+
       setUser(parsedUser)
-      loadStudentData(parsedUser.id)
-    } catch {
-      setError('Invalid user information.')
+
+      const studentId =
+        parsedUser._id || parsedUser.id
+
+      if (!studentId) {
+        throw new Error('Student ID not found.')
+      }
+
+      loadStudentData(studentId)
+
+    } catch (err) {
+      setError(
+        err.message || 'Invalid user information.'
+      )
       setLoading(false)
     }
   }, [])
 
-const loadStudentData = async (studentId) => {
-  setLoading(true)
-  setError('')
+  const loadStudentData = async (studentId) => {
+    setLoading(true)
+    setError('')
 
-  const results = await Promise.allSettled([
-    getOfferings(term),
-    getMyRegistrations(),
-    getStudentRecord(studentId),
-  ])
+    const results = await Promise.allSettled([
+      getOfferings(term),
+      getMyRegistrations(),
+      getStudentRecord(studentId),
+    ])
 
-  const [offeringsResult, registrationsResult, recordResult] =
-    results
+    const [
+      offeringsResult,
+      registrationsResult,
+      recordResult,
+    ] = results
 
-  if (offeringsResult.status === 'fulfilled') {
-    setOfferings(offeringsResult.value)
-  } else {
-    setOfferings([])
-  }
+    if (
+      offeringsResult.status === 'fulfilled'
+    ) {
+      setOfferings(
+        Array.isArray(offeringsResult.value)
+          ? offeringsResult.value
+          : []
+      )
+    } else {
+      setOfferings([])
+    }
 
-  if (registrationsResult.status === 'fulfilled') {
-    setRegistrations(registrationsResult.value)
-  } else {
-    setRegistrations([])
-  }
+    if (
+      registrationsResult.status === 'fulfilled'
+    ) {
+      setRegistrations(
+        Array.isArray(registrationsResult.value)
+          ? registrationsResult.value
+          : []
+      )
+    } else {
+      setRegistrations([])
+    }
 
-  if (recordResult.status === 'fulfilled') {
-    setAcademicRecords(recordResult.value)
-  } else {
-    setAcademicRecords([])
-  }
+    if (
+      recordResult.status === 'fulfilled'
+    ) {
+      setAcademicRecords(
+        Array.isArray(recordResult.value)
+          ? recordResult.value
+          : []
+      )
+    } else {
+      setAcademicRecords([])
+    }
 
-  const errors = results
-    .filter((result) => result.status === 'rejected')
-    .map((result) => result.reason?.message || 'Failed to load data')
+    const errors = results
+      .filter(
+        result =>
+          result.status === 'rejected'
+      )
+      .map(
+        result =>
+          result.reason?.message ||
+          'Failed to load data'
+      )
 
-  if (errors.length > 0) {
-    setError(errors.join(' | '))
-  }
+    if (errors.length > 0) {
+      setError(errors.join(' | '))
+    }
 
-  setLoading(false)
-}
-
+    setLoading(false)
   }
 
   if (loading) {
@@ -93,10 +133,11 @@ const loadStudentData = async (studentId) => {
     <div className="student-page">
 
       {/* HEADER */}
+
       <Header
-      title="Student Dashboard"
-      userName={user?.name || 'Student'}
-      role="Student"
+        title="Student Dashboard"
+        userName={user?.name || 'Student'}
+        role="Student"
       />
 
       {error && (
@@ -106,53 +147,83 @@ const loadStudentData = async (studentId) => {
       )}
 
       {/* STUDENT INFORMATION */}
+
       {user && (
         <div className="selected-student-card">
 
           <div className="selected-student-avatar">
-            {user.name?.charAt(0).toUpperCase()}
+            {user.name
+              ?.charAt(0)
+              .toUpperCase()}
           </div>
 
           <div>
             <span>Student</span>
 
-            <h3>{user.name}</h3>
+            <h3>
+              {user.name}
+            </h3>
 
             <p>
               <strong>Email:</strong>{' '}
               {user.email || 'N/A'}
             </p>
+
+            {user.studentId && (
+              <p>
+                <strong>
+                  Student ID:
+                </strong>{' '}
+                {user.studentId}
+              </p>
+            )}
           </div>
 
         </div>
       )}
 
       {/* SUMMARY */}
+
       <div className="student-summary">
 
         <div>
-          <h3>Available Offerings</h3>
-          <p>{offerings.length}</p>
+          <h3>
+            Available Offerings
+          </h3>
+          <p>
+            {offerings.length}
+          </p>
         </div>
 
         <div>
-          <h3>Current Registrations</h3>
-          <p>{registrations.length}</p>
+          <h3>
+            Current Registrations
+          </h3>
+          <p>
+            {registrations.length}
+          </p>
         </div>
 
         <div>
-          <h3>Academic Records</h3>
-          <p>{academicRecords.length}</p>
+          <h3>
+            Academic Records
+          </h3>
+          <p>
+            {academicRecords.length}
+          </p>
         </div>
 
       </div>
 
       {/* CURRENT REGISTRATIONS */}
+
       <div className="academic-record-section">
 
         <div className="academic-record-header">
           <div>
-            <h2>Current Registrations</h2>
+            <h2>
+              Current Registrations
+            </h2>
 
             <p>
               Your currently registered courses
@@ -184,52 +255,61 @@ const loadStudentData = async (studentId) => {
 
               <tbody>
 
-                {registrations.map(registration => {
+                {registrations.map(
+                  registration => {
 
-                  const offering =
-                    registration.offeringId
+                    const offering =
+                      registration.offeringId
 
-                  const course =
-                    offering?.courseId
+                    const course =
+                      offering?.courseId
 
-                  return (
-                    <tr key={registration._id}>
+                    return (
+                      <tr
+                        key={
+                          registration._id
+                        }
+                      >
 
-                      <td>
-                        <strong>
-                          {course?.code || 'Course'}
-                        </strong>
+                        <td>
+                          <strong>
+                            {course?.code ||
+                              'Course'}
+                          </strong>
 
-                        <div>
-                          {course?.title || ''}
-                        </div>
-                      </td>
+                          <div>
+                            {course?.title ||
+                              ''}
+                          </div>
+                        </td>
 
-                      <td>
-                        {registration.term}
-                      </td>
+                        <td>
+                          {registration.term}
+                        </td>
 
-                      <td>
-                        {offering?.section}
-                      </td>
+                        <td>
+                          {offering?.section}
+                        </td>
 
-                      <td>
-                        {offering?.day}
-                        <br />
-                        {offering?.startTime}
-                        {' - '}
-                        {offering?.endTime}
-                      </td>
+                        <td>
+                          {offering?.day}
+                          <br />
 
-                      <td>
-                        <span className="registered-badge">
-                          Registered
-                        </span>
-                      </td>
+                          {offering?.startTime}
+                          {' - '}
+                          {offering?.endTime}
+                        </td>
 
-                    </tr>
-                  )
-                })}
+                        <td>
+                          <span className="registered-badge">
+                            Registered
+                          </span>
+                        </td>
+
+                      </tr>
+                    )
+                  }
+                )}
 
               </tbody>
 
@@ -241,9 +321,12 @@ const loadStudentData = async (studentId) => {
       </div>
 
       {/* ACADEMIC RECORD */}
+
       <div className="academic-record-section">
 
-        <h2>Academic Record</h2>
+        <h2>
+          Academic Record
+        </h2>
 
         {academicRecords.length === 0 ? (
 
@@ -268,31 +351,35 @@ const loadStudentData = async (studentId) => {
 
               <tbody>
 
-                {academicRecords.map(record => (
+                {academicRecords.map(
+                  record => (
 
-                  <tr key={record._id}>
+                    <tr
+                      key={record._id}
+                    >
 
-                    <td>
-                      {record.courseId?.code}
-                    </td>
+                      <td>
+                        {record.courseId?.code}
+                      </td>
 
-                    <td>
-                      {record.courseId?.title}
-                    </td>
+                      <td>
+                        {record.courseId?.title}
+                      </td>
 
-                    <td>
-                      {record.term}
-                    </td>
+                      <td>
+                        {record.term}
+                      </td>
 
-                    <td>
-                      <span className="grade-badge">
-                        {record.grade}
-                      </span>
-                    </td>
+                      <td>
+                        <span className="grade-badge">
+                          {record.grade}
+                        </span>
+                      </td>
 
-                  </tr>
+                    </tr>
 
-                ))}
+                  )
+                )}
 
               </tbody>
 
@@ -304,14 +391,18 @@ const loadStudentData = async (studentId) => {
       </div>
 
       {/* AVAILABLE OFFERINGS */}
+
       <div className="academic-record-section">
 
         <div className="academic-record-header">
           <div>
-            <h2>Available Course Offerings</h2>
+            <h2>
+              Available Course Offerings
+            </h2>
 
             <p>
-              Courses currently available in the system
+              Courses currently available
+              for term {term}
             </p>
           </div>
         </div>
@@ -342,57 +433,62 @@ const loadStudentData = async (studentId) => {
 
               <tbody>
 
-                {offerings.map(offering => (
+                {offerings.map(
+                  offering => (
 
-                  <tr key={offering._id}>
+                    <tr
+                      key={offering._id}
+                    >
 
-                    <td>
-                      <strong>
-                        {offering.courseId?.code}
-                      </strong>
+                      <td>
+                        <strong>
+                          {offering.courseId?.code}
+                        </strong>
 
-                      <div>
-                        {offering.courseId?.title}
-                      </div>
-                    </td>
+                        <div>
+                          {offering.courseId?.title}
+                        </div>
+                      </td>
 
-                    <td>
-                      {offering.section}
-                    </td>
+                      <td>
+                        {offering.section}
+                      </td>
 
-                    <td>
-                      {offering.day}
-                      <br />
-                      {offering.startTime}
-                      {' - '}
-                      {offering.endTime}
-                    </td>
+                      <td>
+                        {offering.day}
+                        <br />
 
-                    <td>
-                      {offering.room}
-                    </td>
+                        {offering.startTime}
+                        {' - '}
+                        {offering.endTime}
+                      </td>
 
-                    <td>
-                      {offering.instructor}
-                    </td>
+                      <td>
+                        {offering.room}
+                      </td>
 
-                    <td>
-                      {offering.seatsTaken}
-                      {' / '}
-                      {offering.seats}
-                    </td>
+                      <td>
+                        {offering.instructor}
+                      </td>
 
-                    <td>
-                      <span>
-                        {offering.addDropOpen
-                          ? 'Open'
-                          : 'Closed'}
-                      </span>
-                    </td>
+                      <td>
+                        {offering.seatsTaken}
+                        {' / '}
+                        {offering.seats}
+                      </td>
 
-                  </tr>
+                      <td>
+                        <span>
+                          {offering.addDropOpen
+                            ? 'Open'
+                            : 'Closed'}
+                        </span>
+                      </td>
 
-                ))}
+                    </tr>
+
+                  )
+                )}
 
               </tbody>
 
