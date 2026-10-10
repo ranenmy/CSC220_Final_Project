@@ -1,0 +1,758 @@
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+  color: #333;
+}
+
+/* =========================
+   SHARED PAGE
+========================= */
+
+.admin-page,
+.advisor-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 45px 7%;
+  background: #fff;
+  color: #333;
+}
+
+.admin-header,
+.advisor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.admin-header h1,
+.advisor-header h1,
+.admin-page > h1 {
+  margin: 0;
+  color: #333;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 8px 0 35px;
+  color: #888;
+  font-size: 15px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.add-user-button,
+.new-offering-button,
+.load-button,
+.create-button,
+.register-student-button {
+  border: none;
+  background: #23a89a;
+  color: #fff;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-user-button:hover,
+.new-offering-button:hover,
+.load-button:hover,
+.create-button:hover,
+.register-student-button:hover {
+  background: #1d9185;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancel-button {
+  padding: 11px 22px;
+  border: none;
+  background: #ddd;
+  color: #444;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-button,
+.edit-offering-button {
+  padding: 8px 14px;
+  border: 1px solid #23a89a;
+  background: #fff;
+  color: #20998c;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-button:hover,
+.edit-offering-button:hover {
+  background: #23a89a;
+  color: #fff;
+}
+
+.delete-button,
+.delete-offering-button,
+.drop-registration-button {
+  padding: 8px 14px;
+  border: 1px solid #c95b5b;
+  background: #fff;
+  color: #c95b5b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.delete-button:hover:not(:disabled),
+.delete-offering-button:hover,
+.drop-registration-button:hover:not(:disabled) {
+  background: #c95b5b;
+  color: #fff;
+}
+
+.delete-button:disabled,
+.drop-registration-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.form-error {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  background: #fff0f0;
+  color: #b42318;
+  border-left: 4px solid #b42318;
+}
+
+.success-message {
+  margin-bottom: 25px;
+  padding: 13px 16px;
+  background: #eaf8f4;
+  color: #167c70;
+  border-left: 4px solid #23a89a;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.user-form-card,
+.create-offering-card {
+  margin-bottom: 30px;
+  padding: 28px;
+  background: #f7f5f4;
+  border: 1px solid #ddd;
+}
+
+.edit-form-card,
+.create-offering-card,
+.edit-offering-card {
+  border-top: 4px solid #23a89a;
+}
+
+.user-form-card h2,
+.create-offering-card h2 {
+  margin: 0 0 25px;
+  color: #444;
+  font-size: 20px;
+}
+
+.form-grid,
+.offering-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label,
+.offering-form-grid label {
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.offering-form-grid input,
+.offering-form-grid select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.offering-form-grid input:focus,
+.offering-form-grid select:focus {
+  border-color: #23a89a;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.edit-form-header,
+.create-offering-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.edit-form-header p,
+.create-offering-header p {
+  margin: 0;
+  color: #888;
+  font-size: 13px;
+}
+
+.role-label,
+.edit-section-label {
+  padding: 7px 14px;
+  background: #e1f4f1;
+  color: #198b80;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   ADMIN SUMMARY
+========================= */
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.summary > div,
+.advisor-summary > div {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-top: 4px solid #23a89a;
+  padding: 22px 25px;
+  min-height: 100px;
+}
+
+.summary h3,
+.advisor-summary h3 {
+  margin: 0 0 12px;
+  color: #777;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.summary p,
+.advisor-summary p {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* =========================
+   FILTERS
+========================= */
+
+.filter-buttons {
+  display: flex;
+  gap: 35px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.filter-buttons button {
+  position: relative;
+  padding: 12px 4px 14px;
+  border: none;
+  background: transparent;
+  color: #777;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-buttons button:hover,
+.filter-buttons .active-filter {
+  color: #23a89a;
+}
+
+.filter-buttons .active-filter {
+  font-weight: 600;
+}
+
+.filter-buttons .active-filter::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 3px;
+  background: #23a89a;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+thead {
+  background: #555;
+}
+
+th {
+  padding: 16px 20px;
+  text-align: left;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+td {
+  padding: 18px 20px;
+  color: #555;
+  font-size: 14px;
+}
+
+tbody tr {
+  border-bottom: 4px solid #fff;
+}
+
+tbody tr:nth-child(odd) {
+  background: #f7f5f4;
+}
+
+tbody tr:nth-child(even) {
+  background: #e9e7e6;
+}
+
+tbody tr:hover {
+  background: #dcf3ef;
+}
+
+.action-buttons,
+.offering-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* =========================
+   ADVISOR TERM SEARCH
+========================= */
+
+.term-search-card {
+  padding: 22px 25px;
+  margin-bottom: 25px;
+  background: #f7f5f4;
+  border: 1px solid #ddd;
+  border-top: 4px solid #23a89a;
+}
+
+.term-search-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+.term-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.term-input-group label {
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.term-input-group input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  background: #fff !important;
+  color: #333 !important;
+  -webkit-text-fill-color: #333;
+  font-size: 14px;
+  outline: none;
+}
+
+.term-input-group input:focus {
+  border-color: #23a89a;
+}
+
+.term-input-group input::placeholder {
+  color: #888;
+}
+
+/* =========================
+   ADVISOR SUMMARY
+========================= */
+
+.advisor-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 30px 0;
+}
+
+.advisor-page h2 {
+  color: #444 !important;
+  -webkit-text-fill-color: #444 !important;
+}
+
+/* =========================
+   ADD / DROP
+========================= */
+
+.add-drop-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.status-open,
+.status-closed {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-open {
+  background: #e5f6f2;
+  color: #168779;
+}
+
+.status-closed {
+  background: #f3e7e7;
+  color: #b34d4d;
+}
+
+.open-add-drop-button,
+.close-add-drop-button {
+  padding: 7px 12px;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.open-add-drop-button {
+  border: 1px solid #23a89a;
+  color: #20998c;
+}
+
+.close-add-drop-button {
+  border: 1px solid #777;
+  color: #666;
+}
+
+.open-add-drop-button:hover {
+  background: #23a89a;
+  color: #fff;
+}
+
+.close-add-drop-button:hover {
+  background: #666;
+  color: #fff;
+}
+
+/* =========================
+   STUDENT MANAGEMENT
+========================= */
+
+.student-management-section {
+  margin-top: 45px;
+  padding-top: 30px;
+  border-top: 1px solid #ddd;
+}
+
+.student-management-section > p {
+  color: #888;
+}
+
+.student-selection-card {
+  padding: 25px;
+  background: #f7f5f4;
+  border: 1px solid #ddd;
+  border-top: 4px solid #23a89a;
+}
+
+.student-select-group {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+}
+
+.student-select-group label {
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.student-select-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+}
+
+.selected-student-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.selected-student-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  border-radius: 50%;
+  background: #23a89a;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* =========================
+   RECORD / ELIGIBILITY
+========================= */
+
+.academic-record-section {
+  margin-top: 25px;
+  padding: 25px;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-top: 4px solid #23a89a;
+}
+
+.academic-record-header {
+  margin-bottom: 20px;
+}
+
+.academic-record-header h2 {
+  margin: 0 0 5px;
+  color: #444 !important;
+}
+
+.academic-record-header p {
+  margin: 0;
+  color: #888 !important;
+  font-size: 13px;
+}
+
+.record-loading,
+.empty-record-message,
+.empty-message {
+  padding: 30px;
+  background: #f7f5f4;
+  color: #888;
+  text-align: center;
+}
+
+.empty-record-message,
+.empty-message {
+  border: 1px solid #eee;
+}
+
+.grade-badge,
+.eligible-badge,
+.registered-badge {
+  display: inline-block;
+  padding: 7px 12px;
+  background: #e8f7f5;
+  color: #168c80 !important;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.not-eligible-badge {
+  display: inline-block;
+  padding: 7px 12px;
+  background: #fdecec;
+  color: #c44b4b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.eligible-section .academic-record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.eligibility-button {
+  width: auto;
+  min-width: 150px;
+}
+
+.cannot-register-text {
+  color: #999;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .advisor-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-page,
+  .advisor-page {
+    padding: 25px 15px;
+  }
+
+  .admin-header,
+  .advisor-header,
+  .eligible-section .academic-record-header {
+    flex-direction: column;
+  }
+
+  .summary,
+  .advisor-summary,
+  .form-grid,
+  .offering-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .term-search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .term-input-group {
+    width: 100%;
+  }
+
+  .filter-buttons {
+    gap: 18px;
+    overflow-x: auto;
+  }
+}
+
+/* Shared Dashboard Header */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  margin-bottom: 24px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #1f2937;
+}
+
+.dashboard-header p {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.dashboard-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.dashboard-header-content h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #1f2937;
+}
+
+.dashboard-header-content p {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.logout-button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
