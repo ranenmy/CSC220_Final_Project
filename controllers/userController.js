@@ -34,6 +34,7 @@ exports.updateUser = async (req,res) => {
         if (input.email && await User.findOne({_id:{$ne:user._id},email:input.email}).collation({locale:'en',strength:2}).session(session)) fail(409,'Email already exists');
         for (const [key,value] of Object.entries(input)) if (key !== 'password') user[key]=value;
         if (hash) user.passwordHash=hash; validate(user); await user.save({session}); return safe(user);
+        if (String(req.user._id) === String(user._id) && input.active === false) {fail(409, 'You cannot deactivate your own account');}
     }); res.json(result);
 };
 exports.deleteUser = async (req,res) => {

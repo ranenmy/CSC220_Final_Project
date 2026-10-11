@@ -16,18 +16,13 @@ const seedRegistrations = async () => {
         const courses = await Course.find();
 
         // Use the same term as seedOfferings.js
-        const offerings = await Offering.find({ term: "1-2026" });
+        const offerings = await Offering.find({ term: "2026-1" });
 
         const studentMap = {};
-        const courseMap = {};
         const offeringMap = {};
 
         students.forEach(student => {
             studentMap[student.studentId] = student._id;
-        });
-
-        courses.forEach(course => {
-            courseMap[course.code] = course._id;
         });
 
         offerings.forEach(offering => {
@@ -185,7 +180,7 @@ const seedRegistrations = async () => {
             return {
                 studentId,
                 offeringId,
-                term: "1-2026",
+                term: "2026-1",
                 status: "registered"
             };
         });
@@ -199,6 +194,18 @@ const seedRegistrations = async () => {
         console.log(
             `${finalRegistrations.length} registrations added successfully`
         );
+
+        for (const offering of offerings) {
+        const seatsTaken = await Registration.countDocuments({
+            offeringId: offering._id,
+            status: "registered"
+        });
+
+  await Offering.updateOne(
+    { _id: offering._id },
+    { $set: { seatsTaken } }
+  );
+}
 
         process.exit();
 

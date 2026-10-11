@@ -281,7 +281,7 @@ const seedUsers = async () => {
                 email: "david@gmail.com",
                 passwordHash,
                 role: "student",
-                studentId: "2700901234",
+                studentId: "2600901234",
                 active: true
             }
         ];
