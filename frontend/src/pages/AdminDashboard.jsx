@@ -5,6 +5,13 @@ function AdminDashboard() {
   // USERS
   // =====================================================
 
+  
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    window.location.href = '/login'
+  }
+
   const [users, setUsers] = useState([])
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(true)
@@ -468,6 +475,14 @@ function AdminDashboard() {
             ? 'Cancel'
             : '+ Add User'}
         </button>
+
+        <button
+        type="button"
+        className="logout-button"
+        onClick={handleLogout}
+        >
+          Logout
+          </button>
 
       </div>
 

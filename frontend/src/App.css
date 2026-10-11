@@ -894,3 +894,18 @@ tbody tr:hover {
     padding: 26px 22px;
   }
 }
+
+
+.logout-button {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background-color: #b91c1c;
+}
